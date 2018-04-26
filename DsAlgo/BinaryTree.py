@@ -1,14 +1,21 @@
+import queue
 class node():
     def __init__(self, val=None):
         self.val = val
         self.left = None
         self.right = None
 
-queue = []
+
+que = queue.queue()
+
 
 class BinaryTree():
     def __init__(self):
         self.root = None
+
+    def insertlist(self, lst):
+        for i in lst:
+            self.insert(i)
 
     def insert(self, cur_val):
         if self.root == None:
@@ -62,6 +69,7 @@ class BinaryTree():
             print(str(cur_node.val))
 
     # Levelorder Traversal
+    """
     def print_tree_level(self):
         if self.root != None:
             var = self.root
@@ -80,8 +88,10 @@ class BinaryTree():
                 queueNode.append(varl)
             if varr != None:
                 queueNode.append(varr)
+                
         for i in range(0, len(queue)):
           print(str(queue[i].val))
+    """
 
     def getMin(self):
         if self.root != None:
@@ -115,6 +125,19 @@ class BinaryTree():
             print(str(cur_node.val))
             self._traverse_right(cur_node.right)
 
+    def levelorder(self):
+        if self.root != None:
+            que.enqueue(self.root)
+            while que.getsize() != 0:
+                ref = que.dequeue()
+                print(ref.val)
+                if ref.left != None:
+                    #print("-------- "+str(ref.left.val))
+                    que.enqueue(ref.left)
+                if ref.right != None:
+                    #print("-------- " +str(ref.right.val))
+                    que.enqueue(ref.right)
+
 
 #    10
 #  5    15
@@ -139,10 +162,12 @@ print("Postorder Traversal")
 # [2,11,5,12,10]
 tree.print_tree_post()
 print("Level Traversal or Breath First Traversal")
-tree.print_tree_level()
+tree.levelorder()
 print("Get min of Tree")
 print(tree.getMin())
 print("Get max of Tree")
 print(tree.getMax())
 print("Right Traversal")
 tree.traverse_right()
+print("queue length")
+print(que.getsize())
